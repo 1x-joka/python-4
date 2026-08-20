@@ -11,7 +11,7 @@ Cria uma conta bancária e permite fazer saques e depósitos
         self.saldo = s
         print(f'Conta {self.id} criada com sucesso. Saldo atual de R${self.saldo:.2f} no nome de {self.nome_titular}')
     
-    def __str__(self):
+    def __str__(self): # Sempre que alguem der print, mostre isso...
         return f'A conta {self.id} de {self.nome_titular} tem R${self.saldo:.2f} de saldo atual'
     
     def depositar(self, valor):
