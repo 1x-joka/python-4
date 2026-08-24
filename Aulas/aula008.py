@@ -99,7 +99,67 @@ def main2():
 if (__name__ == '__main__'):
     main2()
 
-# -> Métodos Acessores
-    # -> Getters: 
-    # -> Setters: 
-    # -> @Property: 
+# -> Métodos Acessores (maneiras de permitir o acesso aos dados encapsulados)
+    # -> Getters
+    # -> Setters
+    # -> @property
+
+from rich import inspect, print
+
+class Avaliacao():
+    def __init__(self, nome = '<desconhecido>', disciplina = '<desconhecido>', nota = 0):
+        self.nome = nome
+        self.disciplina = disciplina
+        self._nota = nota
+
+    def get_nota(self): # método getter
+        return self._nota
+
+    def set_nota(self, valor): # método setter
+        if (0 <= valor <= 10):
+            self._nota = valor
+        else:
+            print('Nota inválida')
+
+def main3():
+    av1 = Avaliacao('Pedro', 'Matemática', 9.5)
+    av1.set_nota(-5) # não muda pois o getter impede isso
+    print(f'{av1.nome} tirou {av1.get_nota()} em {av1.disciplina}')
+    inspect(av1, private = True)
+
+if __name__ == '__main__':
+    main3()
+
+# -> @property: automaticamente faz a validação sem precisar de uma função escrita no código. Exemplo de property: @nota.getter
+
+class Avaliacao():
+    def __init__(self, nome = '<desconhecido>', disciplina = '<desconhecido>', nota = 0):
+        self.nome = nome
+        self.disciplina = disciplina
+        self._nota = nota
+
+    # Criando Atributo Validável
+    @property
+    def nota(self): # criando um atributo novo, um caminho para validar a nota; getter
+        return self._nota
+    
+    @nota.setter
+    def nota(self, valor): # setter
+        if (0 <= valor <= 10):
+            self._nota = valor
+        else:
+            print('Nota inválida')
+
+    @nota.deleter
+    def nota(self):
+        print('Não pode deletar uma nota!')
+
+def main4():
+    av2 = Avaliacao('Pedro', 'Matemática', 9.5)
+    av2.nota = 3.5
+    av2.nota = -7.2
+    print(f'{av2.nome} tirou {av2.nota} em {av2.disciplina}') # av2.nota está chamando o novo atributo (def nota) não o original
+    inspect(av2, private = True)
+
+if __name__ == '__main__':
+    main4()
